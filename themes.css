@@ -1,0 +1,110 @@
+/* Theme Support - Dark/Light Mode */
+
+/* Light Theme (Default) */
+.light-theme {
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f9fafb;
+    --bg-tertiary: #f3f4f6;
+    --border-color: #e5e7eb;
+}
+
+/* Dark Theme */
+.dark-theme {
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+    --bg-primary: #1f2937;
+    --bg-secondary: #111827;
+    --bg-tertiary: #374151;
+    --border-color: #4b5563;
+    background-color: #111827;
+    color: var(--text-primary);
+}
+
+.dark-theme .card {
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+}
+
+.dark-theme .navbar {
+    background-color: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.dark-theme .form-group input,
+.dark-theme .form-group select {
+    background-color: var(--bg-secondary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.dark-theme .form-group input:focus,
+.dark-theme .form-group select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.dark-theme table th {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.dark-theme table tbody tr:hover {
+    background-color: var(--bg-tertiary);
+}
+
+.dark-theme .result-card {
+    background-color: var(--bg-secondary);
+}
+
+.dark-theme .stat-item {
+    background-color: var(--bg-tertiary);
+}
+
+.dark-theme .scenario-card,
+.dark-theme .portfolio-card {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-color);
+}
+
+.dark-theme .asset-item {
+    background-color: var(--bg-tertiary);
+}
+
+.dark-theme .allocation-summary {
+    background-color: var(--bg-tertiary);
+}
+
+.dark-theme .allocation-summary.warning {
+    background-color: rgba(245, 158, 11, 0.2);
+    color: var(--warning-color);
+}
+
+.dark-theme .quick-link-card {
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+}
+
+.dark-theme .modal-content {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+.dark-theme .footer {
+    background-color: var(--bg-primary);
+    border-top-color: var(--border-color);
+}
+
+.dark-theme .portfolio-item {
+    background-color: var(--bg-tertiary);
+}
+
+/* Chart.js Theme Override for Dark Mode */
+.dark-theme canvas {
+    filter: brightness(0.9);
+}
+
+
+
+
