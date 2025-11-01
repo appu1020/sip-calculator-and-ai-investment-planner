@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Investment Planner - Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/themes.css">
+</head>
+<body class="light-theme">
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h1>💰 AI Investment Planner</h1>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="active">Dashboard</a>
+                <a href="calculator.html">SIP Calculator</a>
+                <a href="planner.html">Portfolio Planner</a>
+                <a href="analytics.html">Analytics</a>
+                <button id="theme-toggle" class="theme-btn" aria-label="Toggle theme">🌓</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="dashboard-header">
+            <h1 class="page-title">Investment Dashboard</h1>
+            <p class="page-subtitle">Plan, calculate, and track your investments with AI-powered insights</p>
+        </section>
+
+        <div class="dashboard-grid">
+            <!-- Quick SIP Calculator Widget -->
+            <div class="card quick-calculator">
+                <h2>Quick SIP Calculator</h2>
+                <form id="quick-sip-form">
+                    <div class="form-group">
+                        <label for="quick-amount">Monthly Investment (₹)</label>
+                        <input type="number" id="quick-amount" min="500" step="500" value="5000" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="quick-period">Investment Period (Years)</label>
+                        <input type="number" id="quick-period" min="1" max="50" value="10" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="quick-returns">Expected Returns (% p.a.)</label>
+                        <input type="number" id="quick-returns" min="5" max="20" step="0.5" value="12" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Calculate</button>
+                </form>
+                <div id="quick-results" class="quick-results"></div>
+            </div>
+
+            <!-- AI Insights Panel -->
+            <div class="card ai-insights">
+                <h2>🤖 AI Insights</h2>
+                <div id="ai-insights-content">
+                    <p class="insight-text">Complete your risk assessment to get personalized recommendations.</p>
+                    <button id="start-assessment" class="btn btn-secondary">Start Risk Assessment</button>
+                </div>
+            </div>
+
+            <!-- Recent Portfolios -->
+            <div class="card recent-portfolios">
+                <h2>Recent Portfolios</h2>
+                <div id="portfolios-list">
+                    <p class="empty-state">No portfolios saved yet. <a href="planner.html">Create your first portfolio</a></p>
+                </div>
+            </div>
+
+            <!-- Statistics Summary -->
+            <div class="card stats-summary">
+                <h2>Portfolio Summary</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-label">Total Invested</div>
+                        <div class="stat-value" id="total-invested">₹0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Current Value</div>
+                        <div class="stat-value" id="current-value">₹0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Returns</div>
+                        <div class="stat-value" id="total-returns">₹0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">ROI</div>
+                        <div class="stat-value" id="roi-percentage">0%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <section class="quick-links">
+            <h2>Quick Access</h2>
+            <div class="links-grid">
+                <a href="calculator.html" class="quick-link-card">
+                    <div class="link-icon">📊</div>
+                    <h3>SIP Calculator</h3>
+                    <p>Calculate your SIP returns and growth projections</p>
+                </a>
+                <a href="planner.html" class="quick-link-card">
+                    <div class="link-icon">🎯</div>
+                    <h3>Portfolio Planner</h3>
+                    <p>Build and manage your investment portfolio</p>
+                </a>
+                <a href="analytics.html" class="quick-link-card">
+                    <div class="link-icon">📈</div>
+                    <h3>Analytics</h3>
+                    <p>View detailed charts and investment analytics</p>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 AI Investment Planner. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/calculator.js"></script>
+    <script src="js/planner.js"></script>
+    <script src="js/ai-engine.js"></script>
+    <script>
+        // Theme toggle
+        document.getElementById('theme-toggle').addEventListener('click', function() {
+            document.body.classList.toggle('light-theme');
+            document.body.classList.toggle('dark-theme');
+            const isDark = document.body.classList.contains('dark-theme');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            document.body.classList.remove('light-theme');
+            document.body.classList.add('dark-theme');
+        }
+
+        // Quick SIP Calculator
+        document.getElementById('quick-sip-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const amount = parseFloat(document.getElementById('quick-amount').value);
+            const period = parseFloat(document.getElementById('quick-period').value);
+            const returns = parseFloat(document.getElementById('quick-returns').value);
+
+            const result = calculateSIP(amount, period, returns);
+            const resultsDiv = document.getElementById('quick-results');
+            
+            resultsDiv.innerHTML = `
+                <div class="result-item">
+                    <span class="result-label">Invested Amount:</span>
+                    <span class="result-value">${formatCurrency(result.totalInvested)}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Maturity Value:</span>
+                    <span class="result-value highlight">${formatCurrency(result.maturityValue)}</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Returns:</span>
+                    <span class="result-value success">${formatCurrency(result.returns)}</span>
+                </div>
+            `;
+        });
+
+        // Load dashboard data
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePortfolioSummary();
+            loadRecentPortfolios();
+            
+            // Risk assessment button
+            document.getElementById('start-assessment').addEventListener('click', function() {
+                showRiskAssessment();
+            });
+
+            // Load AI insights if assessment exists
+            const riskProfile = getStorageData('riskProfile');
+            if (riskProfile) {
+                updateAIInsights(riskProfile);
+            }
+        });
+
+        function updatePortfolioSummary() {
+            const portfolios = getStorageData('portfolios') || [];
+            let totalInvested = 0;
+            let totalValue = 0;
+
+            portfolios.forEach(portfolio => {
+                totalInvested += portfolio.totalInvested || 0;
+                totalValue += portfolio.currentValue || 0;
+            });
+
+            const returns = totalValue - totalInvested;
+            const roi = totalInvested > 0 ? (returns / totalInvested) * 100 : 0;
+
+            document.getElementById('total-invested').textContent = formatCurrency(totalInvested);
+            document.getElementById('current-value').textContent = formatCurrency(totalValue);
+            document.getElementById('total-returns').textContent = formatCurrency(returns);
+            document.getElementById('total-returns').className = returns >= 0 ? 'stat-value success' : 'stat-value error';
+            document.getElementById('roi-percentage').textContent = roi.toFixed(2) + '%';
+            document.getElementById('roi-percentage').className = roi >= 0 ? 'stat-value success' : 'stat-value error';
+        }
+
+        function loadRecentPortfolios() {
+            const portfolios = getStorageData('portfolios') || [];
+            const container = document.getElementById('portfolios-list');
+            
+            if (portfolios.length === 0) {
+                return;
+            }
+
+            container.innerHTML = portfolios.slice(0, 3).map(portfolio => `
+                <div class="portfolio-item">
+                    <div class="portfolio-name">${portfolio.name || 'Unnamed Portfolio'}</div>
+                    <div class="portfolio-value">${formatCurrency(portfolio.currentValue || 0)}</div>
+                </div>
+            `).join('');
+        }
+
+        function showRiskAssessment() {
+            window.location.href = 'planner.html?assessment=true';
+        }
+
+        function updateAIInsights(riskProfile) {
+            const insights = getAIRecommendations(riskProfile);
+            const container = document.getElementById('ai-insights-content');
+            
+            container.innerHTML = `
+                <div class="risk-badge ${riskProfile.riskLevel.toLowerCase()}">${riskProfile.riskLevel}</div>
+                <p class="insight-text">${insights.summary}</p>
+                <ul class="insights-list">
+                    ${insights.recommendations.slice(0, 3).map(rec => `<li>${rec}</li>`).join('')}
+                </ul>
+            `;
+        }
+    </script>
+</body>
+</html>
+
